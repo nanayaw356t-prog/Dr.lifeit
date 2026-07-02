@@ -1,0 +1,276 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Results Check - Dr. Life It</title>
+    <link rel="stylesheet" href="styles.css">
+    <style>
+        .results-container {
+            max-width: 800px;
+            margin: 3rem auto;
+            padding: 0 20px;
+        }
+
+        .search-box {
+            background: white;
+            padding: 2rem;
+            border-radius: 10px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+            margin-bottom: 2rem;
+        }
+
+        .search-form {
+            display: flex;
+            gap: 1rem;
+            flex-wrap: wrap;
+        }
+
+        .search-form input {
+            flex: 1;
+            min-width: 200px;
+            padding: 0.8rem;
+            border: 2px solid #ddd;
+            border-radius: 5px;
+            font-size: 1rem;
+            transition: border 0.3s ease;
+        }
+
+        .search-form input:focus {
+            outline: none;
+            border-color: #667eea;
+        }
+
+        .search-form button {
+            padding: 0.8rem 2rem;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-weight: bold;
+            transition: transform 0.3s ease;
+        }
+
+        .search-form button:hover {
+            transform: translateY(-2px);
+        }
+
+        .results-section {
+            background: white;
+            padding: 2rem;
+            border-radius: 10px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+        }
+
+        .result-item {
+            padding: 1.5rem;
+            border-bottom: 1px solid #eee;
+            transition: background 0.3s ease;
+        }
+
+        .result-item:last-child {
+            border-bottom: none;
+        }
+
+        .result-item:hover {
+            background: #f9f9f9;
+        }
+
+        .result-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 0.5rem;
+        }
+
+        .result-title {
+            color: #667eea;
+            font-size: 1.1rem;
+            font-weight: bold;
+        }
+
+        .result-status {
+            padding: 0.3rem 0.8rem;
+            border-radius: 20px;
+            font-size: 0.85rem;
+            font-weight: bold;
+        }
+
+        .status-passed {
+            background: #d4edda;
+            color: #155724;
+        }
+
+        .status-pending {
+            background: #fff3cd;
+            color: #856404;
+        }
+
+        .status-failed {
+            background: #f8d7da;
+            color: #721c24;
+        }
+
+        .result-info {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+            gap: 1rem;
+            margin-top: 1rem;
+            font-size: 0.9rem;
+        }
+
+        .info-item {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .info-label {
+            color: #666;
+            font-weight: bold;
+            margin-bottom: 0.3rem;
+        }
+
+        .info-value {
+            color: #333;
+        }
+
+        .no-results {
+            text-align: center;
+            padding: 2rem;
+            color: #666;
+        }
+    </style>
+</head>
+<body>
+    <nav class="navbar">
+        <div class="nav-container">
+            <div class="logo">Dr. Life It</div>
+            <ul class="nav-menu">
+                <li><a href="index.html">Home</a></li>
+                <li><a href="about.html">About</a></li>
+                <li><a href="courses.html">Courses</a></li>
+                <li><a href="resources.html">Resources</a></li>
+                <li><a href="results.html" class="active">Results</a></li>
+                <li><a href="contact.html">Contact</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <header class="page-header">
+        <h1>Check Your Results</h1>
+        <p>Search for your course results and performance</p>
+    </header>
+
+    <div class="results-container">
+        <div class="search-box">
+            <h2 style="color: #667eea; margin-bottom: 1.5rem;">Search Results</h2>
+            <form class="search-form" id="searchForm">
+                <input 
+                    type="text" 
+                    id="searchInput" 
+                    placeholder="Enter your student ID or name..."
+                    required
+                >
+                <button type="submit">Search</button>
+            </form>
+        </div>
+
+        <div class="results-section" id="resultsContainer">
+            <div class="no-results">
+                <p>Enter your student ID or name to view your results</p>
+            </div>
+        </div>
+    </div>
+
+    <footer class="footer">
+        <p>&copy; 2026 Dr. Life It. All rights reserved.</p>
+        <ul class="footer-links">
+            <li><a href="about.html">About</a></li>
+            <li><a href="contact.html">Contact</a></li>
+            <li><a href="#">Privacy Policy</a></li>
+        </ul>
+    </footer>
+
+    <script>
+        const sampleResults = [
+            {
+                id: "STU001",
+                name: "John Smith",
+                course: "Introduction to Personal Health",
+                status: "passed",
+                score: 85,
+                date: "2026-06-28",
+                instructor: "Dr. Sarah Johnson"
+            },
+            {
+                id: "STU002",
+                name: "Jane Doe",
+                course: "English Language & Literacy",
+                status: "passed",
+                score: 92,
+                date: "2026-06-25",
+                instructor: "Prof. Michael Chen"
+            }
+        ];
+
+        document.getElementById('searchForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            const searchQuery = document.getElementById('searchInput').value.toLowerCase();
+            
+            if (!searchQuery) {
+                displayNoResults();
+                return;
+            }
+
+            const results = sampleResults.filter(result => 
+                result.id.toLowerCase().includes(searchQuery) || 
+                result.name.toLowerCase().includes(searchQuery)
+            );
+
+            if (results.length === 0) {
+                displayNoResults();
+            } else {
+                displayResults(results);
+            }
+        });
+
+        function displayResults(results) {
+            const container = document.getElementById('resultsContainer');
+            let html = '';
+            results.forEach(result => {
+                const statusClass = `status-${result.status}`;
+                const statusText = result.status.charAt(0).toUpperCase() + result.status.slice(1);
+                html += `
+                    <div class="result-item">
+                        <div class="result-header">
+                            <span class="result-title">${result.course}</span>
+                            <span class="result-status ${statusClass}">${statusText}</span>
+                        </div>
+                        <div class="result-info">
+                            <div class="info-item">
+                                <span class="info-label">Score</span>
+                                <span class="info-value">${result.score}%</span>
+                            </div>
+                            <div class="info-item">
+                                <span class="info-label">Instructor</span>
+                                <span class="info-value">${result.instructor}</span>
+                            </div>
+                            <div class="info-item">
+                                <span class="info-label">Completion Date</span>
+                                <span class="info-value">${new Date(result.date).toLocaleDateString()}</span>
+                            </div>
+                        </div>
+                    </div>
+                `;
+            });
+            container.innerHTML = html;
+        }
+
+        function displayNoResults() {
+            const container = document.getElementById('resultsContainer');
+            container.innerHTML = '<div class="no-results"><p>No results found. Try "STU001" or "John Smith"</p></div>';
+        }
+    </script>
+</body>
+</html>

@@ -1,0 +1,7 @@
+:root{--bg:#f9fbff;--accent:#2b6cb0;--muted:#555}
+body{font-family:system-ui,-apple-system,Segoe UI,Roboto,"Helvetica Neue",Arial;line-height:1.5;margin:0;background:var(--bg);color:#111}
+.site-header{background:var(--accent);color:white;padding:2rem 1rem;text-align:center}
+.content{max-width:960px;margin:2rem auto;padding:0 1rem}
+h1{margin:.25rem 0}
+.about, .contact{background:white;padding:1rem;border-radius:8px;margin-bottom:1rem;box-shadow:0 1px 3px rgba(0,0,0,.06)}
+.site-footer{text-align:center;padding:1rem;color:var(--muted);font-size:.9rem}
